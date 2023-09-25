@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3_create_house_roomers_table
+      author: pikalova.a
+      tagDatabase: Version 1
+      preConditions:
+        onFail: 'MARK_RAN'
+        not:
+          tableExists:
+            schemaName: public
+            tableName: house_roomers
+      changes:
+        - createTable:
+            tableName: house_roomers
+            columns:
+              - column:
+                  name: id_house
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_house_roomers
+                    references: houses(id)
+              - column:
+                  name: id_user
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_roomers_house
+                    references: users(id)

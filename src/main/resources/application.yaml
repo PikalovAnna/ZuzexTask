@@ -1,0 +1,13 @@
+server.port: 8080
+
+spring:
+  application:
+    name: zuzex_task
+  datasource:
+    url: jdbc:postgresql://localhost:5432/zuzex
+    username: postgres
+    password: rxBkxM44EQ4MFWr
+  liquibase:
+    change-log: classpath:/db/migrations/changelog.yaml
+    enabled: true
+    default-schema: public

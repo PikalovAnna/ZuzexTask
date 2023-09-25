@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2_create_houses_table
+      author: pikalova.a
+      tagDatabase: Version 1
+      preConditions:
+        onFail: 'MARK_RAN'
+        not:
+          tableExists:
+            schemaName: public
+            tableName: houses
+      changes:
+        - createTable:
+            tableName: houses
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: address
+                  type: CHARACTER VARYING
+              - column:
+                  name: owner
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_house_user_id
+                    references: users(id)
