@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("/list")
     @Secured("ROLE_ADMIN")
-    Page<User> list(@RequestBody PageFilter filter) {
+    Page<UserWrapper> list(@RequestBody PageFilter filter) {
         return service.list(filter);
     }
 

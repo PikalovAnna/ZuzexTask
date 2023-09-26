@@ -4,7 +4,6 @@ import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.pikalovanna.zuzex_task.dto.PageFilter;
 import org.pikalovanna.zuzex_task.dto.UserWrapper;
-import org.pikalovanna.zuzex_task.entity.House;
 import org.pikalovanna.zuzex_task.entity.User;
 import org.pikalovanna.zuzex_task.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -62,11 +61,16 @@ public class UserService implements UserDetailsService {
 
     /**
      * Возвращает постранично объекты пользователей
+     *
      * @param filter фильтр для пролистывания (номер страницы, кол-во записей на странице)
      * @return страницу с пользователями
      */
-    public Page<User> list(PageFilter filter){
-        return userRepository.findAll(PageRequest.of(filter.getPage(), filter.getSize(), Sort.Direction.ASC));
+    public Page<UserWrapper> list(PageFilter filter) {
+        return userRepository.findAll(PageRequest.of(
+                filter.getPage(),
+                filter.getSize(),
+                Sort.by("id")))
+                .map(UserWrapper::new);
     }
 
     public UserWrapper getUser(Long id) {

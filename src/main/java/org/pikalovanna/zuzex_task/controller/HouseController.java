@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Secured({"ROLE_ADMIN", "ROLE_OWNER"})
 @RequestMapping("house")
 public class HouseController {
 
@@ -39,7 +38,7 @@ public class HouseController {
 
     @PostMapping("/list")
     @Secured("ROLE_ADMIN")
-    Page<House> list(@RequestBody PageFilter filter){
+    Page<HouseWrapper> list(@RequestBody PageFilter filter){
         return service.list(filter);
     }
 
