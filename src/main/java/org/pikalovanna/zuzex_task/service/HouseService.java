@@ -1,6 +1,7 @@
 package org.pikalovanna.zuzex_task.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.http.util.Asserts;
 import org.pikalovanna.zuzex_task.dto.HouseRoomerDto;
 import org.pikalovanna.zuzex_task.dto.HouseRoomersDto;
 import org.pikalovanna.zuzex_task.dto.HouseWrapper;
@@ -39,11 +40,12 @@ public class HouseService {
         House house = new House();
         if (request.getId() != null) {
             house = houseRepository.getOne(request.getId());
-
+            Asserts.notNull(house,"Дом не найден");
         }
         house.setAddress(request.getAddress());
         if (request.getOwnerId() != null) {
             User owner = userRepository.getOne(request.getOwnerId());
+            Asserts.notNull(owner, "Хозяин дома по адресу " + house.getAddress() + " не найден");
             house.setOwner(owner);
             if (owner.getRole() != Role.ROLE_OWNER) {
                 owner.setRole(Role.ROLE_OWNER);

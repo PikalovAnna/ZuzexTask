@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("house")
@@ -32,7 +34,7 @@ public class HouseController {
 
     @PostMapping
     @Secured("ROLE_ADMIN")
-    House updateHouse(@RequestBody HouseWrapper request){
+    House updateHouse(@Valid @RequestBody HouseWrapper request){
         return service.updateHouse(request);
     }
 
@@ -44,19 +46,19 @@ public class HouseController {
 
     @PostMapping("/roomer")
     @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
-    void addRoomer(@RequestBody HouseRoomerDto request){
+    void addRoomer(@Valid @RequestBody HouseRoomerDto request){
         service.addRoomer(request);
     }
 
     @DeleteMapping("/roomer")
     @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
-    void deleteRoomer(@RequestBody HouseRoomerDto request){
+    void deleteRoomer(@Valid @RequestBody HouseRoomerDto request){
         service.deleteRoomer(request);
     }
 
     @PatchMapping("/roomers")
     @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
-    void updateRoomers(@RequestBody HouseRoomersDto request){
+    void updateRoomers(@Valid @RequestBody HouseRoomersDto request){
         service.updateRoomers(request);
     }
 }

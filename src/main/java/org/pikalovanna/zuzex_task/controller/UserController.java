@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("user")
@@ -35,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping
-    UserWrapper updateUser(@RequestBody UserWrapper userWrapper) {
+    UserWrapper updateUser(@Valid @RequestBody UserWrapper userWrapper) {
         return service.update(userWrapper);
     }
 

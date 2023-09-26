@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.apache.http.util.Asserts;
 
 @Service
 @RequiredArgsConstructor
@@ -41,9 +42,7 @@ public class UserService implements UserDetailsService {
             throw new NotFoundException("Пользователь не найден");
 
         User user = (User) authentication.getPrincipal();
-
-        if (user == null)
-            throw new NotFoundException("Пользователь не найден");
+        Asserts.notNull(user, "Пользователь не найден");
 
         return user;
     }
@@ -52,6 +51,7 @@ public class UserService implements UserDetailsService {
         User user = new User();
         if (request.getId() != null) {
             user = userRepository.getOne(request.getId());
+            Asserts.notNull(user, "Пользователь не найден");
         }
         user.setAge(request.getAge());
         user.setName(request.getName());
@@ -74,7 +74,9 @@ public class UserService implements UserDetailsService {
     }
 
     public UserWrapper getUser(Long id) {
-        return new UserWrapper(userRepository.getOne(id));
+        User user = userRepository.getOne(id);
+        Asserts.notNull(user, "Пользователь не найден");
+        return new UserWrapper(user);
     }
 
     public void deleteUser(Long id) {
