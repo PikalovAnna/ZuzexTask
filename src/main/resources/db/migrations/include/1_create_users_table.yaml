@@ -29,12 +29,21 @@ databaseChangeLog:
               - column:
                   name: age
                   type: INT
+              - column:
+                  name: role
+                  type: CHARACTER VARYING
         - insert:
             tableName: users
             columns:
               - column:
                   name: name
                   value: "admin"
+              - column:
+                  name: age
+                  value: 29
+              - column:
+                  name: role
+                  value: "ADMIN"
               - column:
                   name: password
                   value: "$2a$10$R.E8S0Bqy2TTr5/3g0oLlO86RiJh.qNcAYKoXjyxLJqUsEl2cx9oq"

@@ -6,41 +6,49 @@ import org.pikalovanna.zuzex_task.dto.HouseRoomersDto;
 import org.pikalovanna.zuzex_task.dto.HouseWrapper;
 import org.pikalovanna.zuzex_task.entity.House;
 import org.pikalovanna.zuzex_task.service.HouseService;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Secured({"ROLE_ADMIN", "ROLE_OWNER"})
 @RequestMapping("house")
 public class HouseController {
 
     private final HouseService service;
 
     @GetMapping("{id}")
+    @Secured("ROLE_ADMIN")
     House getHouse(@PathVariable Long id) {
         return service.getHouse(id);
     }
 
     @DeleteMapping("{id}")
+    @Secured("ROLE_ADMIN")
     void deleteHouse(@PathVariable Long id){
         service.deleteHouse(id);
     }
 
     @PostMapping
+    @Secured("ROLE_ADMIN")
     House updateHouse(@RequestBody HouseWrapper request){
         return service.updateHouse(request);
     }
 
     @PostMapping("/roomer")
+    @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
     void addRoomer(@RequestBody HouseRoomerDto request){
         service.addRoomer(request);
     }
 
     @DeleteMapping("/roomer")
+    @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
     void deleteRoomer(@RequestBody HouseRoomerDto request){
         service.deleteRoomer(request);
     }
 
     @PatchMapping("/roomers")
+    @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
     void updateRoomers(@RequestBody HouseRoomersDto request){
         service.updateRoomers(request);
     }

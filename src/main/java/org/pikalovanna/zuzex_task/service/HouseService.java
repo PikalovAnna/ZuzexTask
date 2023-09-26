@@ -6,6 +6,7 @@ import org.pikalovanna.zuzex_task.dto.HouseRoomersDto;
 import org.pikalovanna.zuzex_task.dto.HouseWrapper;
 import org.pikalovanna.zuzex_task.entity.House;
 import org.pikalovanna.zuzex_task.entity.User;
+import org.pikalovanna.zuzex_task.enums.Role;
 import org.pikalovanna.zuzex_task.repository.HouseRepository;
 import org.pikalovanna.zuzex_task.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,10 @@ public class HouseService {
 
     private final HouseRepository houseRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     /**
-     * Создает/обновляет дом
+     * Создает/обновляет дом, если хозяин дома был
      * @param request объект запроса для создания/обновления дома
      * @return объект созданного/обновленного дома
      */
@@ -32,11 +34,16 @@ public class HouseService {
         House house = new House();
         if (request.getId() != null){
             house = houseRepository.getOne(request.getId());
+
         }
         house.setAddress(request.getAddress());
         if (request.getOwnerId() != null){
             User owner = userRepository.getOne(request.getOwnerId());
             house.setOwner(owner);
+            if (owner.getRole() != Role.OWNER){
+                owner.setRole(Role.OWNER);
+                userRepository.save(owner);
+            }
         }
         return houseRepository.save(house);
     }

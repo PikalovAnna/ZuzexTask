@@ -11,3 +11,6 @@ spring:
     change-log: classpath:/db/migrations/changelog.yaml
     enabled: true
     default-schema: public
+
+jwt:
+  secret: h278awdk2512e9sqaW
