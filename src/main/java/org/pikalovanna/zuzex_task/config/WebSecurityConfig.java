@@ -58,12 +58,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry expressionInterceptUrlRegistry = http.authorizeRequests()
-                .antMatchers("/authenticate").permitAll();
-
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
         expressionInterceptUrlRegistry
-                .antMatchers(HttpMethod.GET, "/user/{id}").permitAll();
-
+                .antMatchers( "/authenticate").permitAll();
 
         http.exceptionHandling()
                 .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
