@@ -2,9 +2,14 @@ package org.pikalovanna.zuzex_task.service;
 
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.pikalovanna.zuzex_task.dto.PageFilter;
 import org.pikalovanna.zuzex_task.dto.UserWrapper;
+import org.pikalovanna.zuzex_task.entity.House;
 import org.pikalovanna.zuzex_task.entity.User;
 import org.pikalovanna.zuzex_task.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,6 +58,15 @@ public class UserService implements UserDetailsService {
         user.setName(request.getName());
         user.setPassword(encoder.encode(request.getPassword()));
         return new UserWrapper(userRepository.save(user));
+    }
+
+    /**
+     * Возвращает постранично объекты пользователей
+     * @param filter фильтр для пролистывания (номер страницы, кол-во записей на странице)
+     * @return страницу с пользователями
+     */
+    public Page<User> list(PageFilter filter){
+        return userRepository.findAll(PageRequest.of(filter.getPage(), filter.getSize(), Sort.Direction.ASC));
     }
 
     public UserWrapper getUser(Long id) {

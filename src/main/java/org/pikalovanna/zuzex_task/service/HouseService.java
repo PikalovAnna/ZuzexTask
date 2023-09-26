@@ -4,11 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.pikalovanna.zuzex_task.dto.HouseRoomerDto;
 import org.pikalovanna.zuzex_task.dto.HouseRoomersDto;
 import org.pikalovanna.zuzex_task.dto.HouseWrapper;
+import org.pikalovanna.zuzex_task.dto.PageFilter;
 import org.pikalovanna.zuzex_task.entity.House;
 import org.pikalovanna.zuzex_task.entity.User;
 import org.pikalovanna.zuzex_task.enums.Role;
 import org.pikalovanna.zuzex_task.repository.HouseRepository;
 import org.pikalovanna.zuzex_task.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -46,6 +50,15 @@ public class HouseService {
             }
         }
         return houseRepository.save(house);
+    }
+
+    /**
+     * Возвращает постранично объекты домов
+     * @param filter фильтр для пролистывания (номер страницы, кол-во записей на странице)
+     * @return страницу с домами
+     */
+    public Page<House> list(PageFilter filter){
+        return houseRepository.findAll(PageRequest.of(filter.getPage(), filter.getSize(), Sort.Direction.ASC));
     }
 
     /**

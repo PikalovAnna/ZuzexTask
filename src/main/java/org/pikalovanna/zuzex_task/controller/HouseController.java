@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.pikalovanna.zuzex_task.dto.HouseRoomerDto;
 import org.pikalovanna.zuzex_task.dto.HouseRoomersDto;
 import org.pikalovanna.zuzex_task.dto.HouseWrapper;
+import org.pikalovanna.zuzex_task.dto.PageFilter;
 import org.pikalovanna.zuzex_task.entity.House;
 import org.pikalovanna.zuzex_task.service.HouseService;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +35,12 @@ public class HouseController {
     @Secured("ROLE_ADMIN")
     House updateHouse(@RequestBody HouseWrapper request){
         return service.updateHouse(request);
+    }
+
+    @PostMapping("/list")
+    @Secured("ROLE_ADMIN")
+    Page<House> list(@RequestBody PageFilter filter){
+        return service.list(filter);
     }
 
     @PostMapping("/roomer")
