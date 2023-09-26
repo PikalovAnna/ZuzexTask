@@ -1,10 +1,7 @@
 package org.pikalovanna.zuzex_task.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.pikalovanna.zuzex_task.dto.HouseRoomerDto;
-import org.pikalovanna.zuzex_task.dto.HouseRoomersDto;
-import org.pikalovanna.zuzex_task.dto.HouseWrapper;
-import org.pikalovanna.zuzex_task.dto.PageFilter;
+import org.pikalovanna.zuzex_task.dto.*;
 import org.pikalovanna.zuzex_task.entity.House;
 import org.pikalovanna.zuzex_task.service.HouseService;
 import org.springframework.data.domain.Page;
@@ -12,6 +9,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,5 +58,11 @@ public class HouseController {
     @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
     void updateRoomers(@Valid @RequestBody HouseRoomersDto request){
         service.updateRoomers(request);
+    }
+
+    @GetMapping("/roomers")
+    @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
+    List<UserWrapper> getRoomers(Long houseId){
+        return service.getRoomers(houseId);
     }
 }

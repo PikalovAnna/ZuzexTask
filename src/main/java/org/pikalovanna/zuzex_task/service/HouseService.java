@@ -2,10 +2,7 @@ package org.pikalovanna.zuzex_task.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.http.util.Asserts;
-import org.pikalovanna.zuzex_task.dto.HouseRoomerDto;
-import org.pikalovanna.zuzex_task.dto.HouseRoomersDto;
-import org.pikalovanna.zuzex_task.dto.HouseWrapper;
-import org.pikalovanna.zuzex_task.dto.PageFilter;
+import org.pikalovanna.zuzex_task.dto.*;
 import org.pikalovanna.zuzex_task.entity.House;
 import org.pikalovanna.zuzex_task.entity.User;
 import org.pikalovanna.zuzex_task.enums.Role;
@@ -17,7 +14,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Сервис для работы с объектами домов. Предоставляет методы CRUD для домов и заселения в них жильцов.
@@ -131,5 +131,16 @@ public class HouseService {
         });
         house.setRoomers(houseRoomers);
         houseRepository.save(house);
+    }
+
+    /**
+     * Возвращает список жильцов дома
+     *
+     * @param houseId идентификатор дома
+     */
+    public List<UserWrapper> getRoomers(Long houseId){
+        House house = houseRepository.getOne(houseId);
+        Asserts.notNull(house, "Дом не найден");
+        return house.getRoomers().stream().map(UserWrapper::new).collect(Collectors.toList());
     }
 }
