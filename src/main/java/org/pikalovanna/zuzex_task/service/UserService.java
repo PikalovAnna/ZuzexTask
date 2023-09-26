@@ -2,13 +2,18 @@ package org.pikalovanna.zuzex_task.service;
 
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.apache.http.util.Asserts;
 import org.pikalovanna.zuzex_task.dto.PageFilter;
+import org.pikalovanna.zuzex_task.dto.UserCreateRequest;
 import org.pikalovanna.zuzex_task.dto.UserWrapper;
 import org.pikalovanna.zuzex_task.entity.User;
+import org.pikalovanna.zuzex_task.enums.Role;
 import org.pikalovanna.zuzex_task.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +21,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.apache.http.util.Asserts;
 
 @Service
 @RequiredArgsConstructor
@@ -47,15 +51,25 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    @SneakyThrows
     public UserWrapper update(UserWrapper request) {
-        User user = new User();
-        if (request.getId() != null) {
-            user = userRepository.getOne(request.getId());
-            Asserts.notNull(user, "Пользователь не найден");
-        }
+        User user = userRepository.getOne(request.getId());
+        Asserts.notNull(user, "Пользователь не найден");
+
+        if (!getCurrentUser().getId().equals(request.getId()) && !getCurrentUser().getRole().equals(Role.ROLE_ADMIN))
+            throw new AccessDeniedException("Доступ запрещен");
         user.setAge(request.getAge());
         user.setName(request.getName());
         user.setPassword(encoder.encode(request.getPassword()));
+        return new UserWrapper(userRepository.save(user));
+    }
+
+    public UserWrapper create(UserCreateRequest request) {
+        User user = new User();
+        user.setAge(request.getAge());
+        user.setName(request.getName());
+        user.setPassword(encoder.encode(request.getPassword()));
+        user.setRole(request.getRole() != null ? request.getRole() : Role.ROLE_ROOMER);
         return new UserWrapper(userRepository.save(user));
     }
 

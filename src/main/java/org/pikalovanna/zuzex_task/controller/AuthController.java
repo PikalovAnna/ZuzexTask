@@ -39,11 +39,6 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    @RequestMapping(value = "/authenticate/{id}", method = RequestMethod.GET)
-    UserWrapper getUser(@PathVariable Long id) {
-        return userService.getUser(id);
-    }
-
     private void authenticate(String username, String password) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));

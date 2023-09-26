@@ -45,7 +45,7 @@ public class User implements UserDetails {
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.ROLE_ROOMER.name()));
         }
-        return null;
+        return authorities;
     }
 
     @Override

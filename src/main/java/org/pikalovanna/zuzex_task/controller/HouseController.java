@@ -1,5 +1,6 @@
 package org.pikalovanna.zuzex_task.controller;
 
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.pikalovanna.zuzex_task.dto.*;
 import org.pikalovanna.zuzex_task.entity.House;
@@ -20,7 +21,7 @@ public class HouseController {
 
     @GetMapping("{id}")
     @Secured("ROLE_ADMIN")
-    House getHouse(@PathVariable Long id) {
+    HouseWrapper getHouse(@PathVariable Long id) {
         return service.getHouse(id);
     }
 
@@ -44,13 +45,13 @@ public class HouseController {
 
     @PostMapping("/roomer")
     @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
-    void addRoomer(@Valid @RequestBody HouseRoomerDto request){
+    void addRoomer(@Valid @RequestBody HouseRoomerDto request) {
         service.addRoomer(request);
     }
 
     @DeleteMapping("/roomer")
     @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
-    void deleteRoomer(@Valid @RequestBody HouseRoomerDto request){
+    void deleteRoomer(@Valid @RequestBody HouseRoomerDto request) {
         service.deleteRoomer(request);
     }
 
