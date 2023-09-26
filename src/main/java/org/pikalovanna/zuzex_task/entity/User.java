@@ -35,15 +35,15 @@ public class User implements UserDetails {
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private Role role = Role.ROOMER;
+    private Role role = Role.ROLE_ROOMER;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
         if (role != null){
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
+            authorities.add(new SimpleGrantedAuthority(role.name()));
         } else {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + Role.ROOMER));
+            authorities.add(new SimpleGrantedAuthority(Role.ROLE_ROOMER.name()));
         }
         return null;
     }

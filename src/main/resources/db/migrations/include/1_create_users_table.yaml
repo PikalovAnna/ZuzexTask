@@ -43,7 +43,7 @@ databaseChangeLog:
                   value: 29
               - column:
                   name: role
-                  value: "ADMIN"
+                  value: "ROLE_ADMIN"
               - column:
                   name: password
                   value: "$2a$10$R.E8S0Bqy2TTr5/3g0oLlO86RiJh.qNcAYKoXjyxLJqUsEl2cx9oq"

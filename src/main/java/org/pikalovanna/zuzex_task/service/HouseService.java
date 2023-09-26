@@ -45,8 +45,8 @@ public class HouseService {
         if (request.getOwnerId() != null) {
             User owner = userRepository.getOne(request.getOwnerId());
             house.setOwner(owner);
-            if (owner.getRole() != Role.OWNER) {
-                owner.setRole(Role.OWNER);
+            if (owner.getRole() != Role.ROLE_OWNER) {
+                owner.setRole(Role.ROLE_OWNER);
                 userRepository.save(owner);
             }
         }

@@ -12,7 +12,7 @@ public class UserWrapper {
     String name;
     Integer age;
     String password;
-    Role role = Role.ROOMER;
+    Role role = Role.ROLE_ROOMER;
 
     public UserWrapper(){}
 
