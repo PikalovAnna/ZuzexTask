@@ -1,6 +1,5 @@
 package org.pikalovanna.zuzex_task.service;
 
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.http.util.Asserts;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -43,7 +41,7 @@ public class HouseService {
         House house = new House();
         if (request.getId() != null) {
             house = houseRepository.getOne(request.getId());
-            Asserts.notNull(house,"Дом не найден");
+            Asserts.notNull(house, "Дом не найден");
         }
         house.setAddress(request.getAddress());
         if (request.getOwnerId() != null) {
@@ -101,7 +99,7 @@ public class HouseService {
     @SneakyThrows
     public void addRoomer(HouseRoomerDto request) {
         House house = houseRepository.getOne(request.getHouseId());
-        Asserts.notNull(house,"Дом не найден");
+        Asserts.notNull(house, "Дом не найден");
         if (!userService.getCurrentUser().getId().equals(house.getOwner().getId()))
             throw new AccessDeniedException("Добавлять жильцов может только владелец этого дома");
         User roomer = userRepository.getOne(request.getUserId());
@@ -120,7 +118,7 @@ public class HouseService {
     @SneakyThrows
     public void deleteRoomer(HouseRoomerDto request) {
         House house = houseRepository.getOne(request.getHouseId());
-        Asserts.notNull(house,"Дом не найден");
+        Asserts.notNull(house, "Дом не найден");
         if (!userService.getCurrentUser().getId().equals(house.getOwner().getId()))
             throw new AccessDeniedException("Выселять жильцов может только владелец этого дома");
         User roomer = userRepository.getOne(request.getUserId());
@@ -137,9 +135,9 @@ public class HouseService {
      * @param request объект запроса содержащий идентификатор дома и набор жильцов
      */
     @SneakyThrows
-    public void updateRoomers(HouseRoomersDto request){
+    public void updateRoomers(HouseRoomersDto request) {
         House house = houseRepository.getOne(request.getHouseId());
-        Asserts.notNull(house,"Дом не найден");
+        Asserts.notNull(house, "Дом не найден");
         if (!userService.getCurrentUser().getId().equals(house.getOwner().getId()))
             throw new AccessDeniedException("Добавлять жильцов может только владелец этого дома");
         Set<User> houseRoomers = new HashSet<>();
@@ -155,7 +153,7 @@ public class HouseService {
      *
      * @param houseId идентификатор дома
      */
-    public List<UserWrapper> getRoomers(Long houseId){
+    public List<UserWrapper> getRoomers(Long houseId) {
         House house = houseRepository.getOne(houseId);
         Asserts.notNull(house, "Дом не найден");
         return house.getRoomers().stream().map(UserWrapper::new).collect(Collectors.toList());

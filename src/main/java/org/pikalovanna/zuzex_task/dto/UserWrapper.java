@@ -25,9 +25,10 @@ public class UserWrapper {
 
     Role role = Role.ROLE_ROOMER;
 
-    public UserWrapper(){}
+    public UserWrapper() {
+    }
 
-    public UserWrapper(User user){
+    public UserWrapper(User user) {
         this.id = user.getId();
         this.name = user.getName();
         this.age = user.getAge();

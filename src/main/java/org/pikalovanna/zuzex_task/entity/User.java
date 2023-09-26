@@ -40,7 +40,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        if (role != null){
+        if (role != null) {
             authorities.add(new SimpleGrantedAuthority(role.name()));
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.ROLE_ROOMER.name()));
