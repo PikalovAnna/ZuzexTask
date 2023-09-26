@@ -18,12 +18,6 @@ import javax.validation.Valid;
 public class UserController {
     private final UserService service;
 
-    @GetMapping("{id}")
-    @Secured({"ROLE_ADMIN", "ROLE_OWNER", "ROLE_ROOMER"})
-    UserWrapper getUser(@PathVariable Long id) {
-        return service.getUser(id);
-    }
-
     @PostMapping("/list")
     @Secured("ROLE_ADMIN")
     Page<UserWrapper> list(@RequestBody PageFilter filter) {

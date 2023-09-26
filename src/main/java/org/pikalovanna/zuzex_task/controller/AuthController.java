@@ -2,6 +2,7 @@ package org.pikalovanna.zuzex_task.controller;
 
 import org.pikalovanna.zuzex_task.dto.JwtRequest;
 import org.pikalovanna.zuzex_task.dto.JwtResponse;
+import org.pikalovanna.zuzex_task.dto.UserWrapper;
 import org.pikalovanna.zuzex_task.service.UserService;
 import org.pikalovanna.zuzex_task.utility.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class AuthController {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @RequestMapping(value = "/authenticate/{id}", method = RequestMethod.GET)
+    UserWrapper getUser(@PathVariable Long id) {
+        return userService.getUser(id);
     }
 
     private void authenticate(String username, String password) throws Exception {
